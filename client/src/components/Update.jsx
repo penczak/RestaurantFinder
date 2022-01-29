@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { RestaurantsContext } from '../context/RestaurantsContext';
-import { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; //navigate instead of history = useHistory in newer versions of react-router-dom
 import RestaurantFinder from '../APIs/RestaurantFinder';
 
 
 const Update = (props) => {
-    const {restaurants} = useContext(RestaurantsContext)
+    // const {restaurants} = useContext(RestaurantsContext)
     const {id} = useParams();
+    let navigate = useNavigate(); //navigate instead of history = useHistory in newer versions of react-router-dom
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [priceRange, setPriceRange] = useState("");
@@ -18,7 +17,8 @@ const Update = (props) => {
             try {
                 
             const response = await RestaurantFinder.get(`/${id}`);
-            //setRestaurants(response.data.data.restaurants); instead of context, do useState and set[Value]
+            //MISTAKE: setRestaurants(response.data.data.restaurants); 
+            //instead of context, do useState and set[Value]
             console.log(response.data.data);
             setName(response.data.data.restaurants.name);
             setLocation(response.data.data.restaurants.location);
@@ -28,41 +28,38 @@ const Update = (props) => {
         }
 
         fetchData();
-        }, []);
+        }, [id]);
     
+        // Here, I was using the restaurants context instead of useState for each value. 
+        // This is a problem because if a user went directly to the update page instead
+        // of navigating to it from the homepage, then the data would never have been 
+        // fetched and would throw an error. 
     // const handleUpdate = async (e) => {
     //     e.preventDefault(); 
-    //     try {
-    //         const response = await RestaurantFinder.put(`/${id}`, {
+    //     try { const response = await RestaurantFinder.put(`/${id}`, {
     //             name: restaurants.name,
     //             location: restaurants.location,
     //             price_range: restaurants.price_range,
-    //         });
-    //         console.log(response);
-    //     } catch (err) {
-    
-    //     }
-    // }
+
     const handleSubmit = async (e) => {
         e.preventDefault(); 
-        try {
-            const updatedResponse = await RestaurantFinder.put(`/${id}`, {
-                name,
-                location,
-                price_range: priceRange,
-            });
-            console.log(updatedResponse);
-        } catch (err) {
-    
-        }
-    }
+        //Removed a try-catch from this function because I would have no meaningful way of handling the error other than logging it. 
+        const updatedResponse = await RestaurantFinder.put(`/${id}`, {
+            name,
+            location,
+            price_range: priceRange,
+        });
+        navigate(`/${id}`);
+        //console.log(updatedResponse);
+    };
 
 
     // console.log(restaurants);
     return (
+    // <div>
     <div>
-        <h1 className='text-center'>Update {name}</h1>
-        <form action="">
+        <h1 className='text-center'>Update {name} 🍔</h1>
+        <form action="" border="100px">
             {/* 
             This was my attempt without following the guide: 
             It was all 95% correct, but didnt work because I was 
@@ -127,7 +124,8 @@ const Update = (props) => {
             </div>
 
             <br />
-            <div>
+            <div> 
+                
                 {/* <button className="btn btn-primary" onClick={() => handleUpdate({restaurants})} >Update</button> 
 
                 My button was pretty much fine, I just didn't need to pass in {restaurants},
@@ -138,14 +136,20 @@ const Update = (props) => {
                   form values to a form-handler." (from W3) 
                   It seems like type of submit on an INPUT component makes it into a button, but 
                   I'm not sure what the effect is on a button component */}
-                <button type="submit" className="btn btn-primary" onClick={() => handleSubmit()}>Update</button>
+                
+                
+                <button className="btn btn-warning" onClick={handleSubmit}>Update</button>
+
+                {/* <button className="btn btn-primary" onClick={() => buttonTest}>Update</button> 
+                Really sneaky mistake here. I put an arrow function inside the onClick handler and so then
+                it was expecting a promise (I think??). Either way, the button would just do nothing in
+                this form. () => was removed and then it works */}
             </div>
 
         </form>
     </div> 
     )
 };
-
 
 export default Update;
 

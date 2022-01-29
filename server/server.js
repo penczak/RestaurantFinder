@@ -46,7 +46,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
             status: "success",
             results: results.rows.length,
             data: {
-                restaurants: results.rows[0]
+                restaurants: results.rows[0] //Is it bad to return just the 0th entry? Seems like a bad practice. 
             },
         });
     } catch (err) {
@@ -76,8 +76,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
 
 //Update a restaurant
 app.put("/api/v1/restaurants/:id", async (req, res) => {
-    
-    console.log(req.body);
+    //console.log(req.body);
     
     try {
         const results = await db.query(
