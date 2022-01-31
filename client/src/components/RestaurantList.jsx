@@ -22,7 +22,7 @@ const RestaurantList = (props) => {
 
 	const handleDelete = async (id) => {
 		try {
-			const response = await RestaurantFinder.delete(`/${id}`); //send delete request to server
+			const response = await RestaurantFinder.delete(`/restaurants/${id}`); //send delete request to server
 			console.log(response); //should be empty?
 			setRestaurants(restaurants.filter(restaurant => {
 				return restaurant.id !== id; //filter here iterates over every entry, here named 'restaurant' and then will return it to a new array as long as that restaurant.id !== the id of the restaurant we are deleting. 
@@ -33,12 +33,11 @@ const RestaurantList = (props) => {
 	};
 
 	const goToUpdate = (id) => {
-		navigate(`/${id}/update`);
+		navigate(`/restaurants/${id}/update`);
 	}
 
 	const goToDetail = (id) => {
-		console.log("goToDetail runs.");
-		navigate(`/${id}`);
+		navigate(`/restaurants/${id}`);
 	}
 
 	return (

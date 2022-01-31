@@ -12,15 +12,8 @@ app.use(cors());
 
 //-----ROUTE HANDLER-----
 
-app.get("/api/v1/", (req, res) => {
-    res.status(200).json({
-        status: "success",
-        data: "landing page"
-    });
-});
-
 //Get all restaurants
-app.get("/api/v1/restaurants", async (req, res) => {
+app.get("/api/v1/", async (req, res) => {
     try {
         const results = await db.query("SELECT * FROM restaurants");
         //console.log(results);
@@ -55,7 +48,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 });
 
 //Create a restaurant
-app.post("/api/v1/restaurants", async (req, res) => {
+app.post("/api/v1/", async (req, res) => {
     //console.log(req.body);
     try {
         const results = await db.query(

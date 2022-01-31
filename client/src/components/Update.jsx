@@ -16,7 +16,7 @@ const Update = (props) => {
         const fetchData = async () => {
             try {
                 
-            const response = await RestaurantFinder.get(`/${id}`);
+            const response = await RestaurantFinder.get(`/restaurants/${id}`);
             //MISTAKE: setRestaurants(response.data.data.restaurants); 
             //instead of context, do useState and set[Value]
             console.log(response.data.data);
@@ -44,12 +44,12 @@ const Update = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
         //Removed a try-catch from this function because I would have no meaningful way of handling the error other than logging it. 
-        const updatedResponse = await RestaurantFinder.put(`/${id}`, {
+        const updatedResponse = await RestaurantFinder.put(`/restaurants/${id}`, {
             name,
             location,
             price_range: priceRange,
         });
-        navigate(`/${id}`);
+        navigate(`/restaurants/${id}`);
         //console.log(updatedResponse);
     };
 

@@ -15,7 +15,7 @@ const Detail = () => {
         const fetchData = async () => {
             try {
 
-                const response = await RestaurantFinder.get(`/${id}`);
+                const response = await RestaurantFinder.get(`/restaurants/${id}`);
                 console.log(response.data.data);
                 setName(response.data.data.restaurants.name);
                 setLocation(response.data.data.restaurants.location);
