@@ -30,6 +30,8 @@ const Detail = () => {
     return (
     <div>
         <h1 className='text-center'>{name} 🍔</h1>
+        <p className='text-center'>{location}</p>
+        <p className='text-center'>Price Range: {"$".repeat(priceRange)}</p>
     </div>
     );
 };
