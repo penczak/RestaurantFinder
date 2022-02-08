@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import RestaurantFinder from '../APIs/RestaurantFinder';
+import AddReview from './AddReview';
+import Reviews from './Reviews';
+import StarRating from './StarRating';
 
 const Detail = () => {
 
@@ -9,6 +12,7 @@ const Detail = () => {
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [priceRange, setPriceRange] = useState("");
+    const [data, setData] = useState("");
 
     useEffect(() => {
 
@@ -29,9 +33,15 @@ const Detail = () => {
 
     return (
     <div>
-        <h1 className='text-center'>{name} 🍔</h1>
-        <p className='text-center'>{location}</p>
-        <p className='text-center'>Price Range: {"$".repeat(priceRange)}</p>
+        <div className='text-center'>
+            <h1>{name} 🍔</h1>
+            <p>{location}</p>
+            <p>Price Range: {"$".repeat(priceRange)}</p>
+        </div>
+        <div className="mt-3">
+            <Reviews/>
+        </div>
+        <AddReview/>
     </div>
     );
 };

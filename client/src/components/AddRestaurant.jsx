@@ -33,7 +33,8 @@ const AddRestaurant = () => {
                     <input value={location} onChange={e => (setLocation(e.target.value))}type="text" className='form-control' placeholder="Location"/>
                 </div>
                 <div className="col">
-                    <select value={priceRange} onChange={e => (setPriceRange(e.target.value))}className='custom-select my-1 mr-sm-2'>
+                    <select value={priceRange} onChange={e => (setPriceRange(e.target.value))}className='form-select my-1 mr-sm-2'>
+                        {/* changed from 'custom-select' class to 'form-select' for bootstrap to actually recognize it */}
                         <option disabled>Price Range</option>
                         <option value="1">$</option>
                         <option value="2">$$</option>

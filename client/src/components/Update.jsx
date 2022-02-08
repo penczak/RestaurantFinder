@@ -113,7 +113,8 @@ const Update = (props) => {
                 {/* same useState comment applies here. Custom select instead of text/num input
                 because we only want a certain limited number of values coming in here. 
                 This is basically a copy-paste from the AddRestaurant.jsx price range select. */}
-                <select value={priceRange} onChange={(e) => (setPriceRange(e.target.value))} id="priceRange" className='custom-select my-1 mr-sm-2' >
+                <select value={priceRange} onChange={(e) => (setPriceRange(e.target.value))} id="priceRange" className='form-select my-1 mr-sm-2' >
+                    {/* changed from 'custom-select' class to 'form-select' for bootstrap to actually recognize it */}
                     <option disabled>Price Range</option>
                     <option value="1">$</option>
                     <option value="2">$$</option>

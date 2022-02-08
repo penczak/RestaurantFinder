@@ -33,13 +33,13 @@ app.get("/api/v1/", async (req, res) => {
 //Get one restaurant
 app.get("/api/v1/restaurants/:id", async (req, res) => {
     try {
-        console.log(`Getting restaurant id: ${req.params.id}...`)
-        const results = await db.query("SELECT * FROM restaurants WHERE id = $1", [req.params.id]);
+        const results_restaurant = await db.query("SELECT * FROM restaurants WHERE id = $1", [req.params.id]);
+        const results_reviews = await db.query("SELECT * FROM reviews WHERE restaurant_id = $1", [req.params.id]);
         res.status(200).json({
             status: "success",
-            results: results.rows.length,
             data: {
-                restaurants: results.rows[0] //Is it bad to return just the 0th entry? Seems like a bad practice. 
+                restaurants: results_restaurant.rows[0], //Is it bad to return just the 0th entry? Seems like a bad practice. 
+                reviews: results_reviews.rows,
             },
         });
     } catch (err) {
