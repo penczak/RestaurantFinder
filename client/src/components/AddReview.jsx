@@ -5,6 +5,18 @@ const AddReview = () => {
     const [name, setName] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState("Rating");
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault(); 
+    //     //Removed a try-catch from this function because I would have no meaningful way of handling the error other than logging it. 
+    //     const updatedResponse = await RestaurantFinder.put(`/restaurants/${id}`, {
+    //         name,
+    //         location,
+    //         price_range: priceRange,
+    //     });
+    //     navigate(`/restaurants/${id}`);
+    //     //console.log(updatedResponse);
+    // };
  
     return <div className='mb-2'>
         <form action="">
@@ -32,6 +44,7 @@ const AddReview = () => {
                 <textarea  value={reviewText} onChange={e => (setReviewText(e.target.value))}id="review" cols="30" rows="10" className='form-control'></textarea>
             </div>
             <button className="btn btn-primary">Submit</button>
+            {/* <button className="btn btn-primary" onClick={handleSubmit}>Submit</button> */}
         </form>
     </div>;
     };

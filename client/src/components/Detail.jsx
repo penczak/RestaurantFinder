@@ -11,6 +11,9 @@ const Detail = () => {
     const { id } = useParams();
     let navigate = useNavigate(); //navigate instead of history = useHistory in newer versions of react-router-dom
     const { selectedRestaurant, setSelectedRestaurant } = useContext(RestaurantsContext); 
+    const [name, setName] = useState("");
+    const [location, setLocation] = useState("");
+    const [priceRange, setPriceRange] = useState("");
 
     useEffect(() => {
 
@@ -19,6 +22,9 @@ const Detail = () => {
                 //using Context instead of useState for a larger object? I couldnt get useState to hold an object that was retrieved from the backend. 
                 const response = await RestaurantFinder.get(`/restaurants/${id}`);
                 setSelectedRestaurant(response.data.data);
+                setName(response.data.data.restaurants.name);
+                setLocation(response.data.data.restaurants.location);
+                setPriceRange(response.data.data.restaurants.price_range)
             }
             catch (err) { console.log(err) }
         }
@@ -29,18 +35,22 @@ const Detail = () => {
     console.log(selectedRestaurant);
     return (
     <div>
-        <div className='text-center'>
-            <h1>{selectedRestaurant && selectedRestaurant.restaurants.name} 🍔</h1>
-            <p>{selectedRestaurant && selectedRestaurant.restaurants.location}</p>
-            <p>Price Range: {"$".repeat(selectedRestaurant && selectedRestaurant.restaurants.price_range)}</p>
-            {/* <h1>{selectedRestaurant.restaurants.name} 🍔</h1>
-            <p>{selectedRestaurant.restaurants.location}</p>
-            <p>Price Range: {"$".repeat(selectedRestaurant.restaurants.price_range)}</p> */}
-        </div>
-        <div className="mt-3">
-            <Reviews reviews={selectedRestaurant}/>
-        </div>
-        <AddReview/>
+        {selectedRestaurant && (
+            <>
+                <div className='text-center'>
+                    <h1>{name} 🍔</h1>
+                    <p>{location}</p>
+                    <p>Price Range: {"$".repeat(priceRange)}</p>
+                    {/* <h1>{selectedRestaurant.restaurants.name} 🍔</h1>
+                    <p>{selectedRestaurant.restaurants.location}</p>
+                    <p>Price Range: {"$".repeat(selectedRestaurant.restaurants.price_range)}</p> */}
+                </div>
+                <div className="mt-3">
+                    <Reviews reviews={selectedRestaurant.reviews}/>
+                </div>
+                <AddReview/>
+            </>
+        )}
     </div>
     );
 };
