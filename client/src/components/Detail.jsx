@@ -32,15 +32,15 @@ const Detail = () => {
         fetchData();
     }, []);
 
-    console.log(selectedRestaurant);
+    //console.log(selectedRestaurant);
     return (
     <div>
         {selectedRestaurant && (
             <>
                 <div className='text-center'>
-                    <h1>{name} 🍔</h1>
-                    <p>{location}</p>
-                    <p>Price Range: {"$".repeat(priceRange)}</p>
+                    <h1 className='display-1'>{name}</h1>
+                    <p className='display-5'>{location}</p>
+                    <p className='display-6'>Price Range: {"$".repeat(priceRange)}</p>
                     {/* <h1>{selectedRestaurant.restaurants.name} 🍔</h1>
                     <p>{selectedRestaurant.restaurants.location}</p>
                     <p>Price Range: {"$".repeat(selectedRestaurant.restaurants.price_range)}</p> */}

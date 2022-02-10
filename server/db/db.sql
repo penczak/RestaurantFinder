@@ -17,3 +17,8 @@ CREATE TABLE reviews (
     review TEXT NOT NULL,
     rating INT NOT NULL check(rating >= 1 and rating <= 5)
 );
+
+
+INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ("3", "Ryan", "Burritos", "4") RETURNING *;
+
+INSERT INTO restaurants (name, location, price_range) VALUES ("Arbys", "Houston", "3") RETURNING *;
