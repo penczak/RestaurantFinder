@@ -15,8 +15,8 @@ app.use(cors());
 //Get all restaurants
 app.get("/api/v1/", async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM restaurants");
-        //console.log(results);
+        // const results = await db.query("SELECT * FROM restaurants;");
+        const results = await db.query("SELECT * FROM restaurants LEFT JOIN (SELECT restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) AS average_rating FROM reviews GROUP BY restaurant_id) reviews ON restaurants.id = reviews.restaurant_id;");
         res.status(200).json({
             status: "success",
             results: results.rows.length,
@@ -33,8 +33,8 @@ app.get("/api/v1/", async (req, res) => {
 //Get one restaurant
 app.get("/api/v1/restaurants/:id", async (req, res) => {
     try {
-        const results_restaurant = await db.query("SELECT * FROM restaurants WHERE id = $1", [req.params.id]);
-        const results_reviews = await db.query("SELECT * FROM reviews WHERE restaurant_id = $1", [req.params.id]);
+        const results_restaurant = await db.query("SELECT * FROM restaurants LEFT JOIN (SELECT restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) AS average_rating FROM reviews GROUP BY restaurant_id) reviews ON restaurants.id = reviews.restaurant_id WHERE id = $1;", [req.params.id]);
+        const results_reviews = await db.query("SELECT * FROM reviews WHERE restaurant_id = $1;", [req.params.id]);
         res.status(200).json({
             status: "success",
             data: {
@@ -113,8 +113,11 @@ app.post("/api/v1/restaurants/:id/review", async (req, res) => {
             "INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ($1, $2, $3, $4) RETURNING *;",
             [req.body.restaurant_id, req.body.name, req.body.review, req.body.rating]
         );
-        res.status(200).json({
+        res.status(201).json({
             status: "success",
+            data: {
+                review: results.rows[0],
+            },
         });
     } catch (err) {
         console.log(err);

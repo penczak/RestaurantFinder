@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import RestaurantFinder from '../APIs/RestaurantFinder';
 import { RestaurantsContext } from '../context/RestaurantsContext';
 import { useNavigate } from 'react-router-dom'
+import StarRating from './StarRating';
 
 const RestaurantList = (props) => {
 
@@ -40,6 +41,23 @@ const RestaurantList = (props) => {
 		navigate(`/restaurants/${id}`);
 	}
 
+	const renderRating = (restaurant) => {
+		if (restaurant.count > 0) {
+			return (
+				<>
+					<StarRating rating={restaurant.average_rating}/>
+					<span className='text-warning m-2'>({restaurant.count})</span>
+				</>
+			);
+		} else {
+			return (
+				<>
+					<span className='text-warning m-2'>(No reviews)</span>
+				</>
+			);
+		}
+	}
+
 	return (
 		<div className='list-group'>
 			<table className="table table-hover table-dark">
@@ -67,7 +85,8 @@ const RestaurantList = (props) => {
 							<td>{restaurant.name}</td>
 							<td>{restaurant.location}</td>
 							<td>{"$".repeat(restaurant.price_range)}</td>
-							<td>Reviews~</td>
+							<td>{renderRating(restaurant)}</td>
+							{/* <td>{ restaurant.average_rating > 0 ? <StarRating rating={restaurant.average_rating}/> : <p>No reviews</p> }</td> */}
 							<td><button onClick={() => goToDetail(restaurant.id)} className="btn btn-warning">Detail</button></td>
 							<td><button onClick={() => goToUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
 							<td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-warning">Delete</button></td>
